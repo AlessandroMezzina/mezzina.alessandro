@@ -1,6 +1,7 @@
 package com.bookstore.App;
 import com.bookstore.model.*;
 import java.math.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BookStore {
@@ -14,11 +15,15 @@ public class BookStore {
         System.out.println(b);
         System.out.println(b2);
         System.out.println("\t***Stampa dinamica***\t");
-        loadBook();
+
+        ArrayList<Book> books=loadBook();
+        for(int i=0;i<books.size();i++) System.out.println(books.get(i));
     }
 
-    private static void loadBook(){
+    private static ArrayList<Book> loadBook(){
         Scanner scanner=new Scanner(System.in);
+
+        ArrayList<Book> books = new ArrayList<Book>();
 
         Boolean bool=true;
         while(bool) {
@@ -43,7 +48,8 @@ public class BookStore {
                 b=new Book(id, title, author, bd);
             }
             
-            System.out.println(b);
+            //System.out.println(b);
+            books.add(b);
 
             System.out.print("Vuoi caricare un altro libro? (s)(n): ");
             String c=scanner.nextLine();
@@ -51,5 +57,6 @@ public class BookStore {
         }
 
         scanner.close();
+        return books;
     }
 }
