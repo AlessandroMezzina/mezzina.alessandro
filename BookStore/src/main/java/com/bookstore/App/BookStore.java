@@ -6,9 +6,7 @@ import java.util.Scanner;
 
 public class BookStore {
     public static void main(String[] args) {
-        Scanner scanner=new Scanner(System.in);
         Book b=new Book(0L, "Guida galattica per autostoppisti", "Douglas Adams");
-
         BigDecimal bd=new BigDecimal("9.99");
         Book b2=new Book(1L, "Guida galattica per autostoppisti", "Douglas Adams", bd);
         System.out.println("\t***Stampa statica***\t");
