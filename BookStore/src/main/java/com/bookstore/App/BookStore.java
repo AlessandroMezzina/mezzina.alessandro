@@ -51,6 +51,9 @@ public class BookStore {
 
         bs.removeBook(eliminaBook);
         bs.printBook();
+
+        Book[] search=bs.searchBookByTitle("prova");
+        for(int k=0;k<search.length;k++) System.out.println(search[k]);
         scanner.close();
     }
 
@@ -87,5 +90,18 @@ public class BookStore {
                 }
             }
         }
+    }
+
+    private Book[] searchBookByTitle(String title) {
+        Book[] search={};
+        int j=0;
+        for(int i=0;i<books.length;i++) {
+            if(books[i].getTitle().equals(title)) {
+                search=Arrays.copyOf(search, search.length+1);
+                search[j]=books[i];
+                j++;
+            }
+        }
+        return search;
     }
 }
