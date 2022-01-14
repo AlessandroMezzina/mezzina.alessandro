@@ -15,6 +15,7 @@ public class BookStore {
         BookStore bs=new BookStore();
         long i=0L;
         int j=0;
+        Book eliminaBook=null;
         do {
             System.out.print("Inserire titolo del libro: ");
             String title=scanner.nextLine();
@@ -38,6 +39,8 @@ public class BookStore {
             Publisher pub=new Publisher(i, publisher);
 
             Book singleBook=new Book(i, title, autori, pub, bd);
+            eliminaBook=singleBook;
+            singleBook.addAuthor(autori[j]);
             bs.addBook(singleBook);
 
             System.out.print("Inserire un nuovo libro? s/n: ");
@@ -46,8 +49,8 @@ public class BookStore {
             j++;
         } while(scelta.toLowerCase().equals("s"));
 
+        bs.removeBook(eliminaBook);
         bs.printBook();
-
         scanner.close();
     }
 
@@ -61,48 +64,28 @@ public class BookStore {
             System.out.println(books[i]);
     }
 
-    /*private static ArrayList<Book> loadBook(){
-        Scanner scanner=new Scanner(System.in);
+    private void removeBook(Book book) {
+        int count=0;
 
-        ArrayList<Book> books = new ArrayList<Book>();
-
-        Boolean bool=true;
-        long i=0L;
-        while(bool) {
-            System.out.print("\nInserire titolo del libro: ");
-            String title=scanner.nextLine();
-            System.out.print("\nInserire nome autore del libro: ");
-            String authorName=scanner.nextLine();
-            System.out.print("\nInserire cognome autore del libro: ");
-            String authorSurname=scanner.nextLine();
-            Author author=new Author(i, authorName, authorSurname);
-            System.out.print("\nInserire prezzo del libro (lasciare vuoto se gratis): ");
-            String price=scanner.nextLine();
-
-            System.out.print("\nVuoi inserire l'editore? (s/n): ");
-            String scelta=scanner.nextLine();
-
-            BigDecimal bd=null;
-            if (!price.isEmpty()) bd=new BigDecimal(price);
-            Book b;
-            Publisher publisher=null;
-
-            if(scelta.equals("s") || scelta.equals("S")) {
-                System.out.print("\nInserire editore: ");
-                String publisherName=scanner.nextLine();
-                publisher=new Publisher(i, publisherName);
+        BookStore bs=new BookStore();
+        for(int i=0;i<books.length;i++) {
+            if(books[i].equals(book)) {
+                books[i]=null;
+                count++;
             }
-
-            b=new Book(i, title, author, publisher, bd);
-            
-            books.add(b);
-
-            System.out.print("Vuoi caricare un altro libro? (s)(n): ");
-            String c=scanner.nextLine();
-            if(c.equals("n")||(c.equals("N"))) bool=false;
         }
+        bs.shiftBooks();
 
-        scanner.close();
-        return books;
-    }*/
+        books=Arrays.copyOf(books, books.length-count);  
+    }
+
+    private void shiftBooks() {
+        for(int i=0;i<books.length; i++) {
+            if(books[i].equals(null)) {
+                for(int j=i;j<books.length-1; j++) {
+                    books[j]=books[j+1];
+                }
+            }
+        }
+    }
 }
