@@ -5,15 +5,15 @@ public class Book{
     private long id;
     private String title;
     private BigDecimal price; //BigDecimal é un oggetto che serve per rappresentare double ma con una migliore precisione
-    private String author;
+    Author author;
 
-    public Book(long id, String title, String author) {
+    public Book(long id, String title, Author author) {
         this.id=id;
         this.title=title;
         this.author=author;
     }
 
-    public Book(long id, String title, String author, BigDecimal price) {
+    public Book(long id, String title, Author author, BigDecimal price) {
         this.id=id;
         this.title=title;
         this.author=author;
@@ -41,10 +41,10 @@ public class Book{
         this.price=price;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author=author;
     }
 

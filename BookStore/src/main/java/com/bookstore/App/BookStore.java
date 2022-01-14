@@ -6,12 +6,6 @@ import java.util.Scanner;
 
 public class BookStore {
     public static void main(String[] args) {
-        Book b=new Book(0L, "Guida galattica per autostoppisti", "Douglas Adams");
-        BigDecimal bd=new BigDecimal("9.99");
-        Book b2=new Book(1L, "Guida galattica per autostoppisti", "Douglas Adams", bd);
-        System.out.println("\t***Stampa statica***\t");
-        System.out.println(b);
-        System.out.println(b2);
         System.out.println("\t***Stampa dinamica***\t");
 
         ArrayList<Book> books=loadBook();
@@ -24,26 +18,26 @@ public class BookStore {
         ArrayList<Book> books = new ArrayList<Book>();
 
         Boolean bool=true;
+        long i=0L;
         while(bool) {
-
-            System.out.print("Inserire ID del libro: ");
-            //long id=scanner.nextLong();
-            long id=Long.parseLong(scanner.nextLine());
             System.out.print("\nInserire titolo del libro: ");
             String title=scanner.nextLine();
-            System.out.print("\nInserire autore del libro: ");
-            String author=scanner.nextLine();
+            System.out.print("\nInserire nome autore del libro: ");
+            String authorName=scanner.nextLine();
+            System.out.print("\nInserire cognome autore del libro: ");
+            String authorSurname=scanner.nextLine();
+            Author author=new Author(i, authorName, authorSurname);
             System.out.print("\nInserire prezzo del libro (lasciare vuoto se gratis): ");
             String price=scanner.nextLine();
             BigDecimal bd;
             Book b;
             if(price.isEmpty()) {
                 bd=null;
-                b=new Book(id, title, author);
+                b=new Book(i, title, author);
             }
             else {
                 bd=new BigDecimal(price);
-                b=new Book(id, title, author, bd);
+                b=new Book(i, title, author, bd);
             }
             
             //System.out.println(b);
