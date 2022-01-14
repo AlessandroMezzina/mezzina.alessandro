@@ -29,18 +29,32 @@ public class BookStore {
             Author author=new Author(i, authorName, authorSurname);
             System.out.print("\nInserire prezzo del libro (lasciare vuoto se gratis): ");
             String price=scanner.nextLine();
-            BigDecimal bd;
+
+            System.out.print("\nVuoi inserire l'editore? (s/n): ");
+            String scelta=scanner.nextLine();
+
+            BigDecimal bd=null;
             Book b;
-            if(price.isEmpty()) {
-                bd=null;
-                b=new Book(i, title, author);
+            Publisher publisher=null;
+
+            if(scelta.equals("s") || scelta.equals("S")) {
+                System.out.print("\nInserire editore: ");
+                String publisherName=scanner.nextLine();
+                publisher=new Publisher(i, publisherName);
             }
-            else {
-                bd=new BigDecimal(price);
-                b=new Book(i, title, author, bd);
+
+            if(publisher==null) {
+                if(price.isEmpty()) {
+                    bd=null;
+                    b=new Book(i, title, author);
+                }
+                else {
+                    bd=new BigDecimal(price);
+                    b=new Book(i, title, author, publisher, bd);
+                }
             }
+            else b=new Book(i, title, author, publisher, bd);
             
-            //System.out.println(b);
             books.add(b);
 
             System.out.print("Vuoi caricare un altro libro? (s)(n): ");

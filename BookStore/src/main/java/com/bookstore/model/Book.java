@@ -6,6 +6,7 @@ public class Book{
     private String title;
     private BigDecimal price; //BigDecimal é un oggetto che serve per rappresentare double ma con una migliore precisione
     Author author;
+    Publisher publisher;
 
     public Book(long id, String title, Author author) {
         this.id=id;
@@ -18,6 +19,15 @@ public class Book{
         this.title=title;
         this.author=author;
         this.price=price;
+    }
+
+
+    public Book(long id, String title, Author author, Publisher publisher, BigDecimal price) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.author = author;
+        this.publisher = publisher;
     }
 
     public long getId() {
@@ -49,6 +59,14 @@ public class Book{
     }
 
 
+    public Publisher getPublisher() {
+        return this.publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -56,8 +74,7 @@ public class Book{
             ", title='" + getTitle() + "'" +
             ", price='" + getPrice() + "'" +
             ", author='" + getAuthor() + "'" +
+            ", publisher='" + getPublisher() + "'" +
             "}";
-    }
-    
-
+    }  
 }
