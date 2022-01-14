@@ -1,18 +1,57 @@
 package com.bookstore.App;
 import com.bookstore.model.*;
-import java.math.*;
-import java.util.ArrayList;
+
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class BookStore {
-    public static void main(String[] args) {
-        System.out.println("\t***Stampa dinamica***\t");
+    public Book[] books={};
 
-        ArrayList<Book> books=loadBook();
-        for(int i=0;i<books.size();i++) System.out.println(books.get(i));
+    public static void main(String[] args) {
+        Author[] autori=new Author[0];
+        String scelta="";
+        Scanner scanner=new Scanner(System.in);
+        BookStore bs=new BookStore();
+        long i=0L;
+        int j=0;
+        do {
+            System.out.print("Inserire titolo del libro: ");
+            String title=scanner.nextLine();
+
+            /*Retrieve author information*/
+            System.out.print("Inserire nome autore: ");
+            String firstName=scanner.nextLine();
+            System.out.print("Inserire cognome autore: ");
+            String lastName=scanner.nextLine();
+            autori=Arrays.copyOf(autori, autori.length+1);
+            autori[j]=new Author(i, firstName, lastName);
+
+            /*Retrieve price information*/
+            System.out.print("Inserire prezzo (lasciare vuoto se gratis): ");
+            String price=scanner.nextLine();
+            BigDecimal bd=null;
+            if(!price.isEmpty()) bd=new BigDecimal(price);
+
+            Book singleBook=new Book(i, title, autori, bd);
+            bs.addBook(singleBook);
+
+
+            System.out.print("Inserire un nuovo libro? s/n: ");
+            scelta=scanner.nextLine();
+            i++;
+            j++;
+        } while(scelta.toLowerCase().equals("s"));
+
+        scanner.close();
     }
 
-    private static ArrayList<Book> loadBook(){
+    private void addBook(Book book) {
+        books=Arrays.copyOf(books, books.length+1);
+        books[books.length-1]=book;
+    }
+
+    /*private static ArrayList<Book> loadBook(){
         Scanner scanner=new Scanner(System.in);
 
         ArrayList<Book> books = new ArrayList<Book>();
@@ -34,6 +73,7 @@ public class BookStore {
             String scelta=scanner.nextLine();
 
             BigDecimal bd=null;
+            if (!price.isEmpty()) bd=new BigDecimal(price);
             Book b;
             Publisher publisher=null;
 
@@ -43,17 +83,7 @@ public class BookStore {
                 publisher=new Publisher(i, publisherName);
             }
 
-            if(publisher==null) {
-                if(price.isEmpty()) {
-                    bd=null;
-                    b=new Book(i, title, author);
-                }
-                else {
-                    bd=new BigDecimal(price);
-                    b=new Book(i, title, author, publisher, bd);
-                }
-            }
-            else b=new Book(i, title, author, publisher, bd);
+            b=new Book(i, title, author, publisher, bd);
             
             books.add(b);
 
@@ -64,5 +94,5 @@ public class BookStore {
 
         scanner.close();
         return books;
-    }
+    }*/
 }

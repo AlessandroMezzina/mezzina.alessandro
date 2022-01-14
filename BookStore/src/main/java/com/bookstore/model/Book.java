@@ -1,32 +1,33 @@
 package com.bookstore.model;
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 public class Book{
     private long id;
     private String title;
     private BigDecimal price; //BigDecimal é un oggetto che serve per rappresentare double ma con una migliore precisione
-    Author author;
-    Publisher publisher;
+    private Author[] authors;
+    private Publisher publisher;
 
-    public Book(long id, String title, Author author) {
+    public Book(long id, String title, Author[] authors) {
         this.id=id;
         this.title=title;
-        this.author=author;
+        this.authors=authors;
     }
 
-    public Book(long id, String title, Author author, BigDecimal price) {
+    public Book(long id, String title, Author[] authors, BigDecimal price) {
         this.id=id;
         this.title=title;
-        this.author=author;
+        this.authors=authors;
         this.price=price;
     }
 
 
-    public Book(long id, String title, Author author, Publisher publisher, BigDecimal price) {
+    public Book(long id, String title, Author[] authors, Publisher publisher, BigDecimal price) {
         this.id = id;
         this.title = title;
         this.price = price;
-        this.author = author;
+        this.authors = authors;
         this.publisher = publisher;
     }
 
@@ -51,11 +52,11 @@ public class Book{
         this.price=price;
     }
 
-    public Author getAuthor() {
-        return author;
+    public Author[] getAuthors() {
+        return authors;
     }
-    public void setAuthor(Author author) {
-        this.author=author;
+    public void setAuthor(Author[] authors) {
+        this.authors=authors;
     }
 
 
@@ -67,14 +68,21 @@ public class Book{
         this.publisher = publisher;
     }
 
+
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
             ", title='" + getTitle() + "'" +
             ", price='" + getPrice() + "'" +
-            ", author='" + getAuthor() + "'" +
+            ", authors='" + getAuthors() + "'" +
             ", publisher='" + getPublisher() + "'" +
             "}";
-    }  
+    }
+    
+
+    public void addAuthor(Author add) {
+        authors=Arrays.copyOf(authors, authors.length+1);
+        authors[authors.length-1]=add;
+    }
 }
