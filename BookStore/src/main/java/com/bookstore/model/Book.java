@@ -75,7 +75,7 @@ public class Book{
             " id='" + getId() + "'" +
             ", title='" + getTitle() + "'" +
             ", price='" + getPrice() + "'" +
-            ", authors='" + getAuthors() + "'" +
+            ", authors='" + Arrays.toString(getAuthors()) + "'" +
             ", publisher='" + getPublisher() + "'" +
             "}";
     }

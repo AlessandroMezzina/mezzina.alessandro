@@ -48,7 +48,7 @@ public class BookStore {
             i++;
             j++;
         } while(scelta.toLowerCase().equals("s"));
-
+        bs.printBook();
         bs.removeBook(eliminaBook);
         bs.printBook();
 
