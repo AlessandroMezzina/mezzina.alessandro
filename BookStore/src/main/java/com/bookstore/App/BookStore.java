@@ -33,9 +33,13 @@ public class BookStore {
             BigDecimal bd=null;
             if(!price.isEmpty()) bd=new BigDecimal(price);
 
-            Book singleBook=new Book(i, title, autori, bd);
-            bs.addBook(singleBook);
+            System.out.print("Inserire editore: ");
+            String publisher=scanner.nextLine();
+            Publisher pub=new Publisher(i, publisher);
 
+            Book singleBook=new Book(i, title, autori, pub, bd);
+            System.out.println(singleBook);
+            bs.addBook(singleBook);
 
             System.out.print("Inserire un nuovo libro? s/n: ");
             scelta=scanner.nextLine();
