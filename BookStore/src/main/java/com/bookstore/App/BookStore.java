@@ -38,7 +38,6 @@ public class BookStore {
             Publisher pub=new Publisher(i, publisher);
 
             Book singleBook=new Book(i, title, autori, pub, bd);
-            System.out.println(singleBook);
             bs.addBook(singleBook);
 
             System.out.print("Inserire un nuovo libro? s/n: ");
@@ -47,12 +46,19 @@ public class BookStore {
             j++;
         } while(scelta.toLowerCase().equals("s"));
 
+        bs.printBook();
+
         scanner.close();
     }
 
     private void addBook(Book book) {
         books=Arrays.copyOf(books, books.length+1);
         books[books.length-1]=book;
+    }
+
+    private void printBook() {
+        for(int i=0;i<books.length;i++)
+            System.out.println(books[i]);
     }
 
     /*private static ArrayList<Book> loadBook(){
