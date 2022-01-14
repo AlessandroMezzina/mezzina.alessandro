@@ -54,6 +54,8 @@ public class BookStore {
 
         Book[] search=bs.searchBookByTitle("prova");
         for(int k=0;k<search.length;k++) System.out.println(search[k]);
+        search=bs.searchBookByAuthor(autori[0]);
+        for(int k=0;k<search.length;k++) System.out.println(search[k]);
         scanner.close();
     }
 
@@ -103,5 +105,28 @@ public class BookStore {
             }
         }
         return search;
+    }
+
+    private Book[] searchBookByAuthor(Author author) {
+        Book[] search={};
+        int j=0;
+        for(int i=0;i<books.length;i++) {
+            if(hasAuthor(author, books[i])) {
+                search=Arrays.copyOf(search, search.length+1);
+                search[j]=books[i];
+                j++;
+            }
+        }
+        return search;
+    }
+
+    private Boolean hasAuthor(Author author, Book book) {
+        Boolean b=false;
+        Author[] authors=book.getAuthors();
+        for(int i=0;i<authors.length;i++) {
+            if(book.getAuthors().equals(author)) b=true;
+        }
+
+        return b;
     }
 }
