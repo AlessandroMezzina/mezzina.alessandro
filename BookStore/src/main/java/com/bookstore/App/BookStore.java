@@ -12,7 +12,7 @@ public class BookStore {
         Scanner scanner=new Scanner(System.in);
         BookStore bs=new BookStore();
         int scelta=-1;
-        String menu="\t*****MENU*****"+
+        String menu="\t**********MENU**********"+
                     "\n1) Aggiungi un libro"+
                     "\n2) Rimuovi un libro"+
                     "\n3) Stampa libri"+
@@ -39,15 +39,20 @@ public class BookStore {
                 case 4:
                     System.out.print("Inserire titolo del libro: ");
                     String title=scanner.nextLine();
-                    //Book[] search=bs.searchBookByTitle(title);
-                    //for(int i=0;i<search.length;i++) System.out.println(search[i]);
-                    //System.out.println(bs.searchBookByTitle(title));
-                    bs.printBook(bs.searchBookByTitle(title));
+                    printBook(bs.searchBookByTitle(title));
                     break;
                 case 5:
+                    Author author=generaAutore(scanner);
+                    printBook(bs.searchBookByAuthor(author));
                     break;
                 case 6:
-                    break;
+                    String str="Sicuro di voler chiudere?"+
+                                "\n\t- Premere s o S per confermare"+
+                                "\n\t- Premere qualsiasi altro tasto per ignorare"+
+                                "\n Digita la tua risposta: ";
+                    System.out.print(str);
+                    if(scanner.nextLine().toLowerCase().equals("s")) break;
+                    else {scelta=1; continue;}
                 default:
                     System.out.println("La scelta inserita non e' valida");
             }
@@ -97,8 +102,8 @@ public class BookStore {
             System.out.println(books[i]);
     }
 
-    private void printBook(Book[] search) {
-        if(search.length==0) System.out.println("Non e' stato trovato nessun libro con questo titolo");
+    private static void printBook(Book[] search) {
+        if(search.length==0) System.out.println("Non e' stato trovato nessun libro");
         else 
             for(int i=0;i<search.length;i++)
                 System.out.println(search[i]);
@@ -133,7 +138,7 @@ public class BookStore {
         Book[] search={};
         int j=0;
         for(int i=0;i<books.length;i++) {
-            if(hasAuthor(author, books[i])) {
+            if(hasAuthor(author, books[i].getAuthors())) {
                 search=Arrays.copyOf(search, search.length+1);
                 search[j]=books[i];
                 j++;
@@ -142,12 +147,14 @@ public class BookStore {
         return search;
     }
 
-    private Boolean hasAuthor(Author author, Book book) {
+    private Boolean hasAuthor(Author author, Author[] list) {
         Boolean b=false;
-        Author[] authors=book.getAuthors();
-        for(int i=0;i<authors.length;i++) {
-            if(book.getAuthors().equals(author)) b=true;
+        
+        for(int i=0;i<list.length;i++) {
+            if(list[i].getId()==author.getId()) b=true;
         }
+
+        System.out.println(b);
 
         return b;
     }
