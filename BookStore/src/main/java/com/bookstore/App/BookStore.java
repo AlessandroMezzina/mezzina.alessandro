@@ -9,54 +9,87 @@ public class BookStore {
     public Book[] books={};
 
     public static void main(String[] args) {
-        Author[] autori=new Author[0];
-        String scelta="";
         Scanner scanner=new Scanner(System.in);
         BookStore bs=new BookStore();
-        long i=0L;
-        int j=0;
-        Book eliminaBook=null;
+        int scelta=-1;
+        String menu="\t**********MENU**********"+
+                    "\n1) Aggiungi un libro"+
+                    "\n2) Rimuovi un libro"+
+                    "\n3) Stampa libri"+
+                    "\n4) Cerca un libro dal titolo"+
+                    "\n5) Cerca un libro dall'autore"+
+                    "\n6) Esci"+
+                    "\n\n Effettua una scelta: ";
+        //int scelta;
         do {
-            System.out.print("Inserire titolo del libro: ");
-            String title=scanner.nextLine();
+            System.out.print(menu);
+            scelta=Integer.parseInt(scanner.nextLine());
 
-            /*Retrieve author information*/
-            System.out.print("Inserire nome autore: ");
-            String firstName=scanner.nextLine();
-            System.out.print("Inserire cognome autore: ");
-            String lastName=scanner.nextLine();
-            autori=Arrays.copyOf(autori, autori.length+1);
-            autori[j]=new Author(i, firstName, lastName);
-
-            /*Retrieve price information*/
-            System.out.print("Inserire prezzo (lasciare vuoto se gratis): ");
-            String price=scanner.nextLine();
-            BigDecimal bd=null;
-            if(!price.isEmpty()) bd=new BigDecimal(price);
-
-            System.out.print("Inserire editore: ");
-            String publisher=scanner.nextLine();
-            Publisher pub=new Publisher(i, publisher);
-
-            Book singleBook=new Book(i, title, autori, pub, bd);
-            eliminaBook=singleBook;
-            singleBook.addAuthor(autori[j]);
-            bs.addBook(singleBook);
-
-            System.out.print("Inserire un nuovo libro? s/n: ");
-            scelta=scanner.nextLine();
-            i++;
-            j++;
-        } while(scelta.toLowerCase().equals("s"));
-        bs.printBook();
-        bs.removeBook(eliminaBook);
-        bs.printBook();
-
-        Book[] search=bs.searchBookByTitle("prova");
-        for(int k=0;k<search.length;k++) System.out.println(search[k]);
-        search=bs.searchBookByAuthor(autori[0]);
-        for(int k=0;k<search.length;k++) System.out.println(search[k]);
+            switch (scelta) {
+                case 1:
+                    bs.addBook(generaLibro(scanner));
+                    break;
+                case 2:
+                    Book b=generaLibro(scanner);
+                    bs.removeBook(b);
+                    break;
+                case 3:
+                    bs.printBook();
+                    break;
+                case 4:
+                    System.out.print("Inserire titolo del libro: ");
+                    String title=scanner.nextLine();
+                    printBook(bs.searchBookByTitle(title));
+                    break;
+                case 5:
+                    Author author=generaAutore(scanner);
+                    printBook(bs.searchBookByAuthor(author));
+                    break;
+                case 6:
+                    String str="Sicuro di voler chiudere?"+
+                                "\n\t- Premere s o S per confermare"+
+                                "\n\t- Premere qualsiasi altro tasto per ignorare"+
+                                "\n Digita la tua risposta: ";
+                    System.out.print(str);
+                    if(scanner.nextLine().toLowerCase().equals("s")) break;
+                    else {scelta=1; continue;}
+                default:
+                    System.out.println("La scelta inserita non e' valida");
+            }
+        } while(scelta>0 && scelta<6);
         scanner.close();
+    }
+
+    private static Book generaLibro(Scanner scanner) {
+        System.out.print("Inserire id del libro: ");
+        Long id=Long.parseLong(scanner.nextLine());
+        System.out.print("Inserire titolo del libro: ");
+        String title=scanner.nextLine();
+        System.out.print("Inserire numero di autori: ");
+        int numAutori=Integer.parseInt(scanner.nextLine());
+        Author[] autori=new Author[numAutori];
+        for(int i=0;i<numAutori;i++) autori[i]=generaAutore(scanner);
+        System.out.print("Inserire ID editore: ");
+        Long idP=Long.parseLong(scanner.nextLine());
+        System.out.print("Inserire editore: ");
+        String editore=scanner.nextLine();
+        Publisher publisher=new Publisher(idP, editore);
+        System.out.print("Inserire prezzo del libro: ");
+        String price=scanner.nextLine();
+        BigDecimal bd=new BigDecimal(price);
+
+        return new Book(id, title, autori, publisher, bd);
+    }
+
+    private static Author generaAutore(Scanner scanner) {
+        System.out.print("Inserire id autore: ");
+        Long id=Long.parseLong(scanner.nextLine());
+        System.out.print("Inserire nome autore: ");
+        String firstName=scanner.nextLine();
+        System.out.print("Inserire cognome autore: ");
+        String lastName=scanner.nextLine();
+
+        return new Author(id, firstName, lastName);
     }
 
     private void addBook(Book book) {
@@ -69,29 +102,23 @@ public class BookStore {
             System.out.println(books[i]);
     }
 
-    private void removeBook(Book book) {
-        int count=0;
-
-        BookStore bs=new BookStore();
-        for(int i=0;i<books.length;i++) {
-            if(books[i].equals(book)) {
-                books[i]=null;
-                count++;
-            }
-        }
-        bs.shiftBooks();
-
-        books=Arrays.copyOf(books, books.length-count);  
+    private static void printBook(Book[] search) {
+        if(search.length==0) System.out.println("Non e' stato trovato nessun libro");
+        else 
+            for(int i=0;i<search.length;i++)
+                System.out.println(search[i]);
     }
 
-    private void shiftBooks() {
-        for(int i=0;i<books.length; i++) {
-            if(books[i].equals(null)) {
-                for(int j=i;j<books.length-1; j++) {
-                    books[j]=books[j+1];
-                }
+    private void removeBook(Book book) {
+        Book[] remove={};
+        for(int i=0;i<books.length;i++) {
+            if(books[i].equals(book)) {
+                remove=Arrays.copyOf(remove, remove.length+1);
+                remove[remove.length-1]=books[i];
             }
         }
+
+        books=Arrays.copyOf(remove, remove.length);
     }
 
     private Book[] searchBookByTitle(String title) {
@@ -111,7 +138,7 @@ public class BookStore {
         Book[] search={};
         int j=0;
         for(int i=0;i<books.length;i++) {
-            if(hasAuthor(author, books[i])) {
+            if(hasAuthor(author, books[i].getAuthors())) {
                 search=Arrays.copyOf(search, search.length+1);
                 search[j]=books[i];
                 j++;
@@ -120,12 +147,14 @@ public class BookStore {
         return search;
     }
 
-    private Boolean hasAuthor(Author author, Book book) {
+    private Boolean hasAuthor(Author author, Author[] list) {
         Boolean b=false;
-        Author[] authors=book.getAuthors();
-        for(int i=0;i<authors.length;i++) {
-            if(book.getAuthors().equals(author)) b=true;
+        
+        for(int i=0;i<list.length;i++) {
+            if(list[i].getId()==author.getId()) b=true;
         }
+
+        System.out.println(b);
 
         return b;
     }
