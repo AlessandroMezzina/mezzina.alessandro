@@ -5,7 +5,11 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class BookStore {
+    private static final Logger log=LoggerFactory.getLogger(BookStore.class);
     public Book[] books={};
 
     public static void main(String[] args) {
@@ -20,13 +24,13 @@ public class BookStore {
                     "\n5) Cerca un libro dall'autore"+
                     "\n6) Esci"+
                     "\n\n Effettua una scelta: ";
-        //int scelta;
         do {
             System.out.print(menu);
             scelta=Integer.parseInt(scanner.nextLine());
 
             switch (scelta) {
                 case 1:
+                    log.info("Aggiunta del libro...");
                     bs.addBook(generaLibro(scanner));
                     break;
                 case 2:
@@ -93,6 +97,7 @@ public class BookStore {
     }
 
     private void addBook(Book book) {
+        log.info("Adding book with id {}", book.getId());
         books=Arrays.copyOf(books, books.length+1);
         books[books.length-1]=book;
     }
