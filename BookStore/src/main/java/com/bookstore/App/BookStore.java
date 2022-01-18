@@ -144,7 +144,7 @@ public class BookStore {
     private void removeBook(Book book) {
         Book[] remove={};
         for(int i=0;i<books.length;i++) {
-            if(books[i].equals(book)) {
+            if(books[i].getId()!=book.getId()) {
                 remove=Arrays.copyOf(remove, remove.length+1);
                 remove[remove.length-1]=books[i];
             }
@@ -180,14 +180,11 @@ public class BookStore {
     }
 
     private Boolean hasAuthor(Author author, Author[] list) {
-        Boolean b=false;
+        boolean b=false;
         
         for(int i=0;i<list.length;i++) {
             if(list[i].equals(author)) b=true;
-            //if(list[i].getId()==author.getId()) b=true;
         }
-
-        System.out.println(b);
 
         return b;
     }
