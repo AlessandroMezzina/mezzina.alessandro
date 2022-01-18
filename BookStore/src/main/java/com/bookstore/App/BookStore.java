@@ -156,7 +156,8 @@ public class BookStore {
         Boolean b=false;
         
         for(int i=0;i<list.length;i++) {
-            if(list[i].getId()==author.getId()) b=true;
+            if(list[i].equals(author)) b=true;
+            //if(list[i].getId()==author.getId()) b=true;
         }
 
         System.out.println(b);

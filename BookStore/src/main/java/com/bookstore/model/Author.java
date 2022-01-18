@@ -46,4 +46,12 @@ public class Author {
             "}";
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj==null) return false;
+        if(obj instanceof Author) 
+            return this.getId()==((Author)obj).getId();
+        return false;
+    }
+
 }
