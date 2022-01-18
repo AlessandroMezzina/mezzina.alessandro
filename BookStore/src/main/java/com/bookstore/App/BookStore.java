@@ -123,7 +123,7 @@ public class BookStore {
         return new Author(id, firstName, lastName);
     }
 
-    private void addBook(Book book) {
+    public void addBook(Book book) {
         log.info("Adding book with id {}", book.getId());
         books=Arrays.copyOf(books, books.length+1);
         books[books.length-1]=book;
@@ -141,7 +141,7 @@ public class BookStore {
                 System.out.println(search[i]);
     }
 
-    private void removeBook(Book book) {
+    public void removeBook(Book book) {
         Book[] remove={};
         for(int i=0;i<books.length;i++) {
             if(books[i].getId()!=book.getId()) {
@@ -166,7 +166,7 @@ public class BookStore {
         return search;
     }
 
-    private Book[] searchBookByAuthor(Author author) {
+    public Book[] searchBookByAuthor(Author author) {
         Book[] search={};
         int j=0;
         for(int i=0;i<books.length;i++) {
