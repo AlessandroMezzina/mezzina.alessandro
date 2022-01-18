@@ -6,8 +6,9 @@ public class Book{
     private long id;
     private String title;
     private BigDecimal price; //BigDecimal é un oggetto che serve per rappresentare double ma con una migliore precisione
-    private Author[] authors;
+    private Author[] authors={};
     private Publisher publisher;
+    private BookCategory[] categories={};
 
     public Book(long id, String title, Author[] authors) {
         this.id=id;
@@ -68,6 +69,17 @@ public class Book{
         this.publisher = publisher;
     }
 
+    public void setAuthors(Author[] authors) {
+        this.authors = authors;
+    }
+
+    public BookCategory[] getCategories() {
+        return this.categories;
+    }
+
+    public void setCategories(BookCategory[] categories) {
+        this.categories = categories;
+    }
 
     @Override
     public String toString() {
@@ -75,14 +87,19 @@ public class Book{
             " id='" + getId() + "'" +
             ", title='" + getTitle() + "'" +
             ", price='" + getPrice() + "'" +
-            ", authors='" + Arrays.toString(getAuthors()) + "'" +
+            ", authors='" + getAuthors() + "'" +
             ", publisher='" + getPublisher() + "'" +
+            ", categories='" + Arrays.toString(getCategories()) + "'" +
             "}";
-    }
-    
+    }    
 
     public void addAuthor(Author add) {
         authors=Arrays.copyOf(authors, authors.length+1);
         authors[authors.length-1]=add;
+    }
+
+    public void addCategory(BookCategory category) {
+        categories=Arrays.copyOf(categories, categories.length+1);
+        categories[categories.length-1]=category;
     }
 }

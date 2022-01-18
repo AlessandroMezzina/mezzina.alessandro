@@ -82,7 +82,34 @@ public class BookStore {
         String price=scanner.nextLine();
         BigDecimal bd=new BigDecimal(price);
 
-        return new Book(id, title, autori, publisher, bd);
+        Book b=new Book(id, title, autori, publisher, bd);
+        catMenu(scanner, b);
+        return b;
+    }
+
+    private static void catMenu(Scanner scanner, Book b) {
+        BookCategory[] values=BookCategory.values();
+        String menu="\n\tDi quale categoria fa parte il libro?";
+        int i=0;
+        for(i=0;i<values.length;i++) {
+            menu+="\n\t\t"+(i+1)+") "+values[i];
+        }
+        menu+="\n\t\tx) ESCI";
+        int scelta=-1;
+        System.out.print("Inserire numero di categorie: ");
+        int nCat=Integer.parseInt(scanner.nextLine());
+        String choice="";
+        for(i=0;i<nCat;i++) {
+            while(scelta<1 || scelta>5) {
+                System.out.print(menu);
+                System.out.print("\n\tEffettuare una scelta: ");
+                choice=scanner.nextLine();
+                if(choice.toLowerCase().equals("x")) break;
+                scelta=Integer.parseInt(choice);
+                b.addCategory(values[scelta-1]);
+                log.info("Adding category {}", values[scelta-1]);
+            }
+        }
     }
 
     private static Author generaAutore(Scanner scanner) {
